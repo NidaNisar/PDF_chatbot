@@ -1,6 +1,7 @@
 from src.data_loader import pdf_reader
 from src.chunking import split_document
 from Embeddings import Embedding_manager
+from src.vector_store import Vectorstore
 if __name__=="__main__":
     doc=pdf_reader("data")
     chunks=split_document(doc)
@@ -9,5 +10,13 @@ if __name__=="__main__":
     texts = [doc.page_content for doc in chunks]
     
     embeddings = embedding_model.generate_embeddings(texts)
-    print(embeddings)
+    vectorstore = Vectorstore()
+    
+    vectorstore.add_documents(
+            chunks,
+            embeddings
+        )
+    
+    print("Documents indexed successfully.")
+    
   
